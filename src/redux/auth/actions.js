@@ -1,0 +1,21 @@
+import {
+  SET_USER,
+  REMOVE_USER
+} from './actionTypes'
+
+const setUser = (user, access_token) => ({
+  type: SET_USER,
+  payload: {
+    user,
+    access_token
+  }
+})
+
+const removeUser = () => ({
+  type: REMOVE_USER
+})
+
+export {
+  setUser,
+  removeUser
+}
