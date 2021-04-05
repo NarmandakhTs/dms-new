@@ -6,7 +6,7 @@ const AppTheme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: '#007eff'
+      main: '#262F3E'
     },
     background: {
       default: "#f7f9fc"

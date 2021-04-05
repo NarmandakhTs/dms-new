@@ -8,6 +8,8 @@ import {
 import {
   Login,
   NotFound,
+  Project,
+  Projects,
   Students,
   UserSelect
 } from './pages'
@@ -46,6 +48,12 @@ function AppRoutes() {
 
   return (
     <Switch>
+      <Route path={`${path}/projects/:id`}>
+        <Project />
+      </Route>
+      <Route path={`${path}/projects`}>
+        <Projects />
+      </Route>
       <Route path={`${path}/students`}>
         <Students />
       </Route>

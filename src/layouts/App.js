@@ -1,68 +1,63 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
+import { getUserFullname } from './../redux/auth/selectors'
 import { AppRoutes } from './../Routes'
 import {
+  Link,
+  useLocation,
+  useRouteMatch
+} from 'react-router-dom'
+import {
+  Avatar,
   Box,
+  Breadcrumbs,
   Drawer,
-  Divider,
+  Typography,
+  Tooltip,
+  Grid,
+  Link as MaterialLink,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Badge,
-  Grid,
-  Breadcrumbs,
-  Link as MaterialLink
+  ListItemIcon
 } from '@material-ui/core'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import Logo from './../assets/images/logo.png'
+import Logo from './../assets/images/logo.svg'
+import HomeIcon from '@material-ui/icons/HomeOutlined'
 
-const drawerWidth = 260
+const drawerWidth = 60
 
 const useStyles = makeStyles((theme) => ({
+  userAvatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+    fontSize: 15
+  },
+  content: {
+    marginLeft: drawerWidth,
+  },
   drawer: {
     '& .MuiDrawer-paper': {
       width: drawerWidth,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: theme.spacing(2, null),
+      backgroundColor: theme.palette.primary.main,
       borderRight: 0,
-      backgroundColor: '#1d2b38',
     },
-  },
-  appBar: {
-    position: 'static',
-    backgroundColor: '#fff',
-    boxShadow: 'none'
-  },
-  content: {
-    marginLeft: drawerWidth
-  },
-  logo: {
-    '& img': {
-      height: 40
-    },
-    textAlign: 'center',
-    padding: theme.spacing(2),
-    backgroundColor: '#233143',
   },
   listItem: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
+    padding: 0,
+    '&.Mui-selected, &.Mui-selected:hover': {
+      backgroundColor: 'rgba(255, 255, 255, .1)',
+    },
   },
   listItemIcon: {
-    color: theme.palette.grey[500],
-    minWidth: theme.spacing(5)
-  },
-  listItemText: {
-    '& .MuiTypography-body1': {
-      color: theme.palette.grey[300],
-    }
-  },
+    color: '#fff',
+    minWidth: drawerWidth,
+    justifyContent: 'center',
+    padding: theme.spacing(2, null)
+  }
 }))
 
 function Header({
@@ -71,7 +66,7 @@ function Header({
   actions
 }) {
   return (
-    <>
+    <Box mb={3}>
       <Grid
         container
         alignItems="flex-end"
@@ -109,83 +104,89 @@ function Header({
           {actions}
         </Grid>
       </Grid>
-      <Box my={3}>
-        <Divider />
-      </Box>
-    </>
+    </Box>
   )
 }
 
+function ListItemLink(props) {
+  return <ListItem
+    button
+    component={Link}
+    {...props}
+  />
+}
+
+
 function App() {
   const classes = useStyles()
+  const { pathname } = useLocation()
+  const { path } = useRouteMatch()
+  const userFullname = useSelector(getUserFullname)
   const [menuItems] = useState([
     {
-      to: '/',
+      to: '/students',
       label: 'Students',
-      icon: <InboxIcon />,
+      icon: <HomeIcon />,
+    },
+    {
+      to: '/projects',
+      label: 'Projects',
+      icon: <HomeIcon />,
+    },
+    {
+      to: `/projects/2`,
+      label: 'My Project',
+      icon: <HomeIcon />,
     }
   ])
+
+  const getFirstElementsOfFullname = () => `${userFullname.surname.charAt(0)}${userFullname.name.charAt(0)}`
 
   return (
     <>
       <Drawer
+        open
         variant="permanent"
         className={classes.drawer}
       >
-        <Box className={classes.logo}>
-          <img alt="App" src={Logo} />
-        </Box>
-        <Divider />
-        <List>
-          <ListItem className={classes.listItem}>
-            <Typography
-              variant="subtitle2"
-              color="primary"
-            >Pages</Typography>
-          </ListItem>
-          {menuItems.map((item, index) => (
-            <ListItem
-              button
-              key={index}
-              className={classes.listItem}
-            >
-              <ListItemIcon className={classes.listItemIcon}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.label}
-                className={classes.listItemText}
-              />
-            </ListItem>
-          ))}
+        <img
+          alt="Logo"
+          src={Logo}
+        />
+        <List
+          disablePadding
+          component="nav"
+        >
+          {menuItems.map((item, index) => {
+            const joinedPath = `${path}${item.to}`
+
+            return (
+              <ListItemLink
+                key={index}
+                to={joinedPath}
+                className={classes.listItem}
+                selected={pathname === joinedPath}
+                disableGutters
+              >
+                <Tooltip
+                  arrow
+                  title={item.label}
+                  placement="right"
+                >
+                  <ListItemIcon className={classes.listItemIcon}>
+                    {item.icon}
+                  </ListItemIcon>
+                </Tooltip>
+              </ListItemLink>
+            )
+          })}
         </List>
+        <Avatar className={classes.userAvatar}>
+          {getFirstElementsOfFullname()}
+        </Avatar>
       </Drawer>
       <main className={classes.content}>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Grid
-              container
-              justify="flex-end"
-            >
-              <Grid item>
-                <IconButton>
-                  <Badge
-                    badgeContent={17}
-                    color="secondary"
-                  >
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton edge="end">
-                  <AccountCircle />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </AppBar>
-        <Box p={6}>
-          <AppRoutes />
-        </Box>
+        <AppRoutes />
       </main>
     </>
   )
