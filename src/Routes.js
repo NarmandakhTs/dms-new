@@ -8,7 +8,8 @@ import {
 import {
   Login,
   NotFound,
-  Project,
+  ProjectDocuments,
+  ProjectOverview,
   Projects,
   Students,
   UserSelect
@@ -21,6 +22,7 @@ import {
 } from './Themes'
 import Auth from './layouts/Auth'
 import App from './layouts/App'
+import Project from './layouts/Project'
 import { useSelector } from 'react-redux'
 import { getUser } from './redux/auth/selectors'
 import { CssBaseline } from '@material-ui/core'
@@ -40,6 +42,27 @@ function PrivateRoute({ children, ...rest }) {
         />
       )}
     />
+  )
+}
+
+function ProjectRoutes() {
+  const { path, url } = useRouteMatch()
+
+  return (
+    <Switch>
+      <Route path={`${path}/documents`}>
+        <ProjectDocuments />
+      </Route>
+      <Route path={`${path}/overview`}>
+        <ProjectOverview />
+      </Route>
+      <Route path={path}>
+        <Redirect to={`${url}/overview`} />
+      </Route>
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
   )
 }
 
@@ -109,7 +132,8 @@ function Routes() {
 
 export {
   AuthRoutes,
-  AppRoutes
+  AppRoutes,
+  ProjectRoutes
 }
 
 export default Routes

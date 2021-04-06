@@ -12,12 +12,11 @@ import {
   LinearProgress,
 } from '@material-ui/core'
 import axios from './../plugins/axios'
-import { useSelector } from 'react-redux'
-import { getUserDepartment } from './../redux/auth/selectors'
 import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import AddIcon from '@material-ui/icons/Add'
-import FileIcon from './../assets/images/xls.svg'
+import FileIcon from './../assets/images/files/file.svg'
+import XLSIcon from './../assets/images/files/xls.svg'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -77,8 +76,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function StudentsNew({ open, onClose, onFinish }) {
-  const department = useSelector(getUserDepartment)
+function DropZoneDialog({
+  title,
+  open,
+  extensions,
+  uploadPath,
+  onClose,
+  onFinish
+}) {
   const classes = useStyles()
   const input = useRef(null)
   const [file, setFile] = useState('')
@@ -110,7 +115,7 @@ function StudentsNew({ open, onClose, onFinish }) {
       }
 
       await axios.post(
-        `departments/${department}/students`,
+        uploadPath,
         formData,
         config
       )
@@ -143,7 +148,7 @@ function StudentsNew({ open, onClose, onFinish }) {
             <img
               width="40"
               alt="document"
-              src={FileIcon}
+              src={XLSIcon}
             />
           </Grid>
           <Grid item xs>
@@ -200,12 +205,12 @@ function StudentsNew({ open, onClose, onFinish }) {
   const fileUploader = (
     <Box className={classes.fileUploader}>
       <img
-        width="80"
+        width="60"
         alt="document"
         src={FileIcon}
       />
       <Typography>
-        <Box fontWeight="fontWeightLight">Drag and Drop your file here</Box>
+        <Box fontWeight="fontWeightLight">Drag and Drop your document here</Box>
       </Typography>
       <Box>
         <Typography className={classes.dividerWithText}>OR</Typography>
@@ -217,7 +222,7 @@ function StudentsNew({ open, onClose, onFinish }) {
           onChange={browseFile}
           disabled={uploading}
           type="file"
-          accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          accept={extensions}
         />
         <Button
           disabled={uploading}
@@ -244,7 +249,9 @@ function StudentsNew({ open, onClose, onFinish }) {
         >
           <Grid item>
             <Typography variant="h6">
-              <Box fontWeight="fontWeightRegular">Upload Users</Box>
+              <Box fontWeight="fontWeightRegular">
+                {title}
+              </Box>
             </Typography>
           </Grid>
           <Grid item>
@@ -261,4 +268,4 @@ function StudentsNew({ open, onClose, onFinish }) {
   )
 }
 
-export default StudentsNew
+export default DropZoneDialog

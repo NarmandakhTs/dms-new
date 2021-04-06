@@ -6,23 +6,20 @@ import { AppRoutes } from './../Routes'
 import {
   Link,
   useLocation,
-  useRouteMatch
+  useRouteMatch,
 } from 'react-router-dom'
 import {
   Avatar,
-  Box,
-  Breadcrumbs,
   Drawer,
-  Typography,
   Tooltip,
-  Grid,
-  Link as MaterialLink,
   List,
   ListItem,
   ListItemIcon
 } from '@material-ui/core'
 import Logo from './../assets/images/logo.svg'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import PeopleIcon from '@material-ui/icons/People'
+import AccountTreeIcon from '@material-ui/icons/AccountTree'
 
 const drawerWidth = 60
 
@@ -60,54 +57,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function Header({
-  title,
-  breadcrumbs,
-  actions
-}) {
-  return (
-    <Box mb={3}>
-      <Grid
-        container
-        alignItems="flex-end"
-        justify="space-between"
-      >
-        <Grid item>
-          <Typography variant="h5">
-            <Box fontWeight="fontWeightMedium">
-              {title}
-            </Box>
-          </Typography>
-          <Box mt={1}>
-            <Breadcrumbs aria-label="breadcrumb">
-              {breadcrumbs.map((breadcrumb, i) => breadcrumb.to ? (
-                <MaterialLink
-                  key={i}
-                  to={breadcrumb.to}
-                  component={Link}
-                  color="primary"
-                >
-                  {breadcrumb.label}
-                </MaterialLink>
-              ) : (
-                <Typography
-                  key={i}
-                  color="textSecondary"
-                >
-                  {breadcrumb.label}
-                </Typography>
-              ))}
-            </Breadcrumbs>
-          </Box>
-        </Grid>
-        <Grid item>
-          {actions}
-        </Grid>
-      </Grid>
-    </Box>
-  )
-}
-
 function ListItemLink(props) {
   return <ListItem
     button
@@ -119,25 +68,25 @@ function ListItemLink(props) {
 
 function App() {
   const classes = useStyles()
+  const { url } = useRouteMatch()
   const { pathname } = useLocation()
-  const { path } = useRouteMatch()
   const userFullname = useSelector(getUserFullname)
   const [menuItems] = useState([
     {
+      to: `/projects/2`,
+      label: 'My Project',
+      icon: <DashboardIcon />,
+    },
+    {
       to: '/students',
       label: 'Students',
-      icon: <HomeIcon />,
+      icon: <PeopleIcon />,
     },
     {
       to: '/projects',
       label: 'Projects',
-      icon: <HomeIcon />,
+      icon: <AccountTreeIcon />,
     },
-    {
-      to: `/projects/2`,
-      label: 'My Project',
-      icon: <HomeIcon />,
-    }
   ])
 
   const getFirstElementsOfFullname = () => `${userFullname.surname.charAt(0)}${userFullname.name.charAt(0)}`
@@ -158,7 +107,7 @@ function App() {
           component="nav"
         >
           {menuItems.map((item, index) => {
-            const joinedPath = `${path}${item.to}`
+            const joinedPath = `${url}${item.to}`
 
             return (
               <ListItemLink
@@ -166,6 +115,7 @@ function App() {
                 to={joinedPath}
                 className={classes.listItem}
                 selected={pathname === joinedPath}
+                exact={item.exact}
                 disableGutters
               >
                 <Tooltip
@@ -190,10 +140,6 @@ function App() {
       </main>
     </>
   )
-}
-
-export {
-  Header
 }
 
 export default App

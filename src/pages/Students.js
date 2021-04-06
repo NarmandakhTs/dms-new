@@ -29,12 +29,12 @@ import {
   Snackbar,
   Grid as MaterialGrid,
 } from '@material-ui/core'
-import { Header } from './../layouts/App'
+import { PageHeader } from './../components'
 import Alert from '@material-ui/lab/Alert'
 import AddIcon from '@material-ui/icons/Add'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import PublishIcon from '@material-ui/icons/Publish';
-import { StudentsNew } from './'
+import { DropZoneDialog } from './../components'
 
 function StudentInfo({ name, surname }) {
   return (
@@ -123,8 +123,8 @@ function Students() {
   }
 
   return (
-    <>
-      <Header
+    <Box p={5}>
+      <PageHeader
         title="Students"
         breadcrumbs={[
           { label: 'App', to: '/' },
@@ -191,7 +191,10 @@ function Students() {
             pageSizes={[10, 25]}
           />
         </Grid>
-        <StudentsNew
+        <DropZoneDialog
+          title="Upload Users"
+          extensions="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          uploadPath={`departments/${department}/students`}
           open={uploadStudentDialog}
           onFinish={onUploadStudentsFinish}
           onClose={() => openUploadStudentDialog(false)}
@@ -213,7 +216,7 @@ function Students() {
         </Alert>
         </Snackbar>
       </Box>
-    </>
+    </Box>
   )
 }
 

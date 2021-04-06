@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="499.537" height="570.902" viewBox="0 0 499.537 570.902">
+  <g id="Group_26" data-name="Group 26" transform="translate(-638 -111.549)">
+    <g id="xls" transform="translate(542 141)">
+      <path id="Path_20" data-name="Path 20" d="M128,0A32.094,32.094,0,0,0,96,32V480a32.094,32.094,0,0,0,32,32H448a32.094,32.094,0,0,0,32-32V128L352,0Z" fill="#e2e5e7"/>
+      <path id="Path_21" data-name="Path 21" d="M384,128h96L352,0V96a32.094,32.094,0,0,0,32,32Z" fill="#b0b7bd"/>
+      <path id="Path_22" data-name="Path 22" d="M480,224l-96-96h96Z" fill="#cad1d8"/>
+    </g>
+    <g id="xls-2" data-name="xls" transform="matrix(0.985, 0.174, -0.174, 0.985, 664.829, 94.879)">
+      <path id="Path_20-2" data-name="Path 20" d="M128,0A32.094,32.094,0,0,0,96,32V480a32.094,32.094,0,0,0,32,32H448a32.094,32.094,0,0,0,32-32V128L352,0Z" fill="#cdd0d1"/>
+      <path id="Path_21-2" data-name="Path 21" d="M384,128h96L352,0V96a32.094,32.094,0,0,0,32,32Z" fill="#b0b7bd"/>
+      <path id="Path_22-2" data-name="Path 22" d="M480,224l-96-96h96Z" fill="#cad1d8"/>
+    </g>
+  </g>
+</svg>

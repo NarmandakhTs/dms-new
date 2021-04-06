@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="512" viewBox="0 0 384 512">
+  <g id="xls" transform="translate(-96)">
+    <path id="Path_20" data-name="Path 20" d="M128,0A32.094,32.094,0,0,0,96,32V480a32.094,32.094,0,0,0,32,32H448a32.094,32.094,0,0,0,32-32V128L352,0Z" fill="#e2e5e7"/>
+    <path id="Path_21" data-name="Path 21" d="M384,128h96L352,0V96A32.094,32.094,0,0,0,384,128Z" fill="#b0b7bd"/>
+    <path id="Path_22" data-name="Path 22" d="M480,224l-96-96h96Z" fill="#cad1d8"/>
+  </g>
+</svg>
