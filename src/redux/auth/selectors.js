@@ -1,3 +1,5 @@
+const getPermissions = ({ auth }) => auth.permissions
+
 const getAccessToken = ({ auth }) => auth.access_token
 
 const getUserDepartment = ({ auth }) => auth.user.department_id
@@ -10,9 +12,11 @@ const getUserFullname = ({ auth }) => {
   return { name, surname }
 }
 
+
 export {
+  getPermissions,
   getAccessToken,
   getUserDepartment,
   getUser,
-  getUserFullname
+  getUserFullname,
 }

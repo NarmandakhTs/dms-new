@@ -1,20 +1,19 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setUser } from './../redux/auth/actions'
-import axios from './../plugins/axios'
 import {
-  useParams,
-  useHistory
-} from 'react-router-dom'
+  setUser,
+  setPermissions
+} from './../redux/auth/actions'
 import {
   Button,
   Box,
   TextField,
   Typography
 } from '@material-ui/core'
+import axios from './../plugins/axios'
 
 function Login() {
-  const params = useParams()
   const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -30,8 +29,9 @@ function Login() {
     try {
       const {
         user,
-        access_token
-      } = await axios.post(`${params.user}/login`, {
+        access_token,
+        permissions
+      } = await axios.post('login', {
         email,
         password
       })
@@ -41,6 +41,10 @@ function Login() {
           user,
           access_token
         )
+      )
+
+      dispatch(
+        setPermissions(permissions)
       )
 
       history.replace('/app')

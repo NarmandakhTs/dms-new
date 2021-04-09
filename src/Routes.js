@@ -8,11 +8,11 @@ import {
 import {
   Login,
   NotFound,
+  Project,
   ProjectDocuments,
   ProjectOverview,
   Projects,
   Students,
-  UserSelect
 } from './pages'
 import {
   ThemeProvider
@@ -20,14 +20,34 @@ import {
 import {
   AppTheme
 } from './Themes'
+import {
+  getPermissions,
+  getUser
+} from './redux/auth/selectors'
+import { useSelector } from 'react-redux'
 import Auth from './layouts/Auth'
 import App from './layouts/App'
-import Project from './layouts/Project'
-import { useSelector } from 'react-redux'
-import { getUser } from './redux/auth/selectors'
 import { CssBaseline } from '@material-ui/core'
 
-function PrivateRoute({ children, ...rest }) {
+function PermittedRoute({ children, permission, ...rest }) {
+  const permissions = useSelector(getPermissions)
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => permissions.includes(permission) ? children : (
+        <Redirect
+          to={{
+            pathname: '/app/permission/denied',
+            state: { from: location }
+          }}
+        />
+      )}
+    />
+  )
+}
+
+function AuthenticatedRoute({ children, permission, ...rest }) {
   const user = useSelector(getUser)
 
   return (
@@ -50,15 +70,15 @@ function ProjectRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/documents`}>
+      <PermittedRoute path={`${path}/documents`}>
         <ProjectDocuments />
-      </Route>
-      <Route path={`${path}/overview`}>
+      </PermittedRoute>
+      <PermittedRoute path={`${path}/overview`}>
         <ProjectOverview />
-      </Route>
-      <Route path={path}>
+      </PermittedRoute>
+      <PermittedRoute path={path}>
         <Redirect to={`${url}/overview`} />
-      </Route>
+      </PermittedRoute>
       <Route>
         <NotFound />
       </Route>
@@ -71,19 +91,15 @@ function AppRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/projects/:id`}>
+      <PermittedRoute path={`${path}/projects/:id`}>
         <Project />
-      </Route>
-      <Route path={`${path}/projects`}>
+      </PermittedRoute>
+      <PermittedRoute path={`${path}/projects`}>
         <Projects />
-      </Route>
-      <Route path={`${path}/students`}>
+      </PermittedRoute>
+      <PermittedRoute path={`${path}/students`}>
         <Students />
-      </Route>
-      <Route path={path}>
-        {/* TODO: home page hiiheeree ene redirect path-iig oorchiloorei */}
-        <Redirect to={`${path}/students`} />
-      </Route>
+      </PermittedRoute>
       <Route>
         <NotFound />
       </Route>
@@ -96,11 +112,8 @@ function AuthRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/login/:user(student|teacher)`}>
-        <Login />
-      </Route>
       <Route path={`${path}/login`} exact>
-        <UserSelect />
+        <Login />
       </Route>
       <Route>
         <NotFound />
@@ -118,9 +131,9 @@ function Routes() {
           <Route path="/auth">
             <Auth />
           </Route>
-          <PrivateRoute path="/app">
+          <AuthenticatedRoute path="/app">
             <App />
-          </PrivateRoute>
+          </AuthenticatedRoute>
         </ThemeProvider>
         <Route>
           <NotFound />

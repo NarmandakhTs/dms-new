@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'
-import { getUserFullname } from './../redux/auth/selectors'
 import { AppRoutes } from './../Routes'
+import { useSelector } from 'react-redux'
+import {
+  getPermissions,
+  getUserFullname
+} from './../redux/auth/selectors'
 import {
   Link,
   useLocation,
@@ -70,22 +73,26 @@ function App() {
   const classes = useStyles()
   const { url } = useRouteMatch()
   const { pathname } = useLocation()
+  const permissions = useSelector(getPermissions)
   const userFullname = useSelector(getUserFullname)
   const [menuItems] = useState([
     {
       to: `/projects/2`,
       label: 'My Project',
       icon: <DashboardIcon />,
+      permission: 'view-project',
     },
     {
       to: '/students',
       label: 'Students',
       icon: <PeopleIcon />,
+      permission: 'view-students',
     },
     {
       to: '/projects',
       label: 'Projects',
       icon: <AccountTreeIcon />,
+      permission: 'view-projects',
     },
   ])
 
@@ -109,7 +116,7 @@ function App() {
           {menuItems.map((item, index) => {
             const joinedPath = `${url}${item.to}`
 
-            return (
+            return permissions.includes(item.permission) && (
               <ListItemLink
                 key={index}
                 to={joinedPath}

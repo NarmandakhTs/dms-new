@@ -16,6 +16,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { ProjectRoutes } from './../Routes'
+import axios from './../plugins/axios'
 import HomeIcon from '@material-ui/icons/HomeOutlined'
 import DocumentIcon from '@material-ui/icons/DescriptionOutlined'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
@@ -57,6 +58,7 @@ function Project() {
   const classes = useStyles()
   const { pathname } = useLocation()
   const { url } = useRouteMatch()
+  const [data, setData] = useState({})
   const [menuItems] = useState([
     {
       to: '/overview',
@@ -79,6 +81,14 @@ function Project() {
       icon: <CommentIcon />,
     }
   ])
+
+  const fetchData = async () => {
+    try {
+      const {data} = await axios.get('')
+    } catch (e) {
+      // 
+    }
+  }
 
   return (
     <Grid container>

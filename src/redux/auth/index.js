@@ -1,12 +1,14 @@
 import { createReducer } from 'redux-create-reducer'
 import {
+  SET_PERMISSIONS,
   SET_USER,
   REMOVE_USER
 } from './actionTypes'
 
 const state = {
   user: null,
-  access_token: null
+  access_token: null,
+  permissions: []
 }
 
 const mutations = {
@@ -24,6 +26,14 @@ const mutations = {
       ...state,
       user,
       access_token
+    }
+  },
+  [SET_PERMISSIONS](state, { payload }) {
+    const { permissions } = payload
+
+    return {
+      ...state,
+      permissions
     }
   }
 }
