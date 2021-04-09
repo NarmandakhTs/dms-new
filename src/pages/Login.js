@@ -44,7 +44,7 @@ function Login() {
       )
 
       dispatch(
-        setPermissions(permissions)
+        setPermissions(permissions.map(value => value.code))
       )
 
       history.replace('/app')

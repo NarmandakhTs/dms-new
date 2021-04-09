@@ -30,13 +30,17 @@ import Auth from './layouts/Auth'
 import App from './layouts/App'
 import { CssBaseline } from '@material-ui/core'
 
-function PermittedRoute({ children, permission, ...rest }) {
+function PermittedRoute({
+  permission,
+  children,
+  ...rest
+}) {
   const permissions = useSelector(getPermissions)
 
   return (
     <Route
       {...rest}
-      render={() => permissions.includes(permission)
+      render={() => permission && permissions.includes(permission)
         ? children
         : <PermissionDenied />
       }
@@ -44,7 +48,10 @@ function PermittedRoute({ children, permission, ...rest }) {
   )
 }
 
-function AuthenticatedRoute({ children, permission, ...rest }) {
+function AuthenticatedRoute({
+  children,
+  ...rest
+}) {
   const user = useSelector(getUser)
 
   return (
@@ -53,7 +60,7 @@ function AuthenticatedRoute({ children, permission, ...rest }) {
       render={({ location }) => !!user ? children : (
         <Redirect
           to={{
-            pathname: '/auth',
+            pathname: '/auth/login',
             state: { from: location }
           }}
         />
@@ -67,10 +74,16 @@ function ProjectRoutes() {
 
   return (
     <Switch>
-      <PermittedRoute path={`${path}/documents`}>
+      <PermittedRoute
+        permission="view-project-documents"
+        path={`${path}/documents`}
+      >
         <ProjectDocuments />
       </PermittedRoute>
-      <PermittedRoute path={`${path}/overview`}>
+      <PermittedRoute
+        permission="view-project-overview"
+        path={`${path}/overview`}
+      >
         <ProjectOverview />
       </PermittedRoute>
       <PermittedRoute path={path}>
@@ -94,7 +107,10 @@ function AppRoutes() {
       <PermittedRoute path={`${path}/projects`}>
         <Projects />
       </PermittedRoute>
-      <PermittedRoute path={`${path}/students`}>
+      <PermittedRoute
+        permission="view-students"
+        path={`${path}/students`}
+      >
         <Students />
       </PermittedRoute>
       <Route>
