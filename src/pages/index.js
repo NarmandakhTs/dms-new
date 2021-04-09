@@ -1,5 +1,6 @@
 import Login from './Login'
 import NotFound from './NotFound'
+import PermissionDenied from './PermissionDenied'
 import Project from './Project'
 import ProjectDocuments from './ProjectDocuments'
 import ProjectOverview from './ProjectOverview'
@@ -9,6 +10,7 @@ import Students from './Students'
 export {
   Login,
   NotFound,
+  PermissionDenied,
   Project,
   ProjectDocuments,
   ProjectOverview,

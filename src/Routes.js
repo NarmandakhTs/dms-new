@@ -8,6 +8,7 @@ import {
 import {
   Login,
   NotFound,
+  PermissionDenied,
   Project,
   ProjectDocuments,
   ProjectOverview,
@@ -35,14 +36,10 @@ function PermittedRoute({ children, permission, ...rest }) {
   return (
     <Route
       {...rest}
-      render={({ location }) => permissions.includes(permission) ? children : (
-        <Redirect
-          to={{
-            pathname: '/app/permission/denied',
-            state: { from: location }
-          }}
-        />
-      )}
+      render={() => permissions.includes(permission)
+        ? children
+        : <PermissionDenied />
+      }
     />
   )
 }
