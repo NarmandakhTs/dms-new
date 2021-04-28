@@ -1,7 +1,11 @@
-import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
+  useState,
+  useEffect
+} from 'react'
+import {
   Link,
+  useParams,
   useLocation,
   useRouteMatch
 } from 'react-router-dom'
@@ -56,9 +60,10 @@ function ListItemLink(props) {
 
 function Project() {
   const classes = useStyles()
+  const params = useParams()
   const { pathname } = useLocation()
   const { url } = useRouteMatch()
-  const [data, setData] = useState({})
+  const [project, setProject] = useState({})
   const [menuItems] = useState([
     {
       to: '/overview',
@@ -82,9 +87,17 @@ function Project() {
     }
   ])
 
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   const fetchData = async () => {
     try {
-      const {data} = await axios.get('')
+      const path = params.id ? `projects/${params.id}` : 'my/project'
+
+      const { data } = await axios.get(path)
+
+      setProject(data)
     } catch (e) {
       // 
     }
@@ -104,13 +117,19 @@ function Project() {
                 <Avatar
                   variant="rounded"
                   className={classes.sideBarAvatar}
-                >LOL</Avatar>
+                >
+                  {project.name ? project.name.charAt(0) : ''}
+                </Avatar>
               </Grid>
               <Grid item xs>
                 <Typography>
-                  <Box fontWeight="fontWeightMedium">Document Management System</Box>
+                  <Box fontWeight="fontWeightMedium">
+                    {project.name}
+                  </Box>
                 </Typography>
-                <Typography variant="caption">#20179040</Typography>
+                <Typography variant="caption">
+                  {`#${project.id}`}
+                </Typography>
               </Grid>
             </Grid>
           </Box>

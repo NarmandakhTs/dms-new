@@ -23,6 +23,7 @@ import Logo from './../assets/images/logo.svg'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import PeopleIcon from '@material-ui/icons/People'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 const drawerWidth = 60
 
@@ -77,22 +78,33 @@ function App() {
   const userFullname = useSelector(getUserFullname)
   const [menuItems] = useState([
     {
-      to: `/projects/2`,
-      label: 'My Project',
-      icon: <DashboardIcon />,
-      permission: 'view-project',
-    },
-    {
       to: '/students',
       label: 'Students',
       icon: <PeopleIcon />,
       permission: 'view-students',
     },
     {
+      to: '/my/project',
+      label: 'My Project',
+      icon: <DashboardIcon />,
+      permission: 'view-my-project',
+    },
+    {
+      to: `/projects/2`,
+      label: 'My Project',
+      icon: <DashboardIcon />,
+      permission: 'view-project',
+    },
+    {
       to: '/projects',
       label: 'Projects',
       icon: <AccountTreeIcon />,
       permission: 'view-projects',
+    },
+    {
+      to: '/settings',
+      label: 'Settings',
+      icon: <SettingsIcon />,
     },
   ])
 
@@ -116,7 +128,7 @@ function App() {
           {menuItems.map((item, index) => {
             const joinedPath = `${url}${item.to}`
 
-            return permissions.includes(item.permission) && (
+            return permissions.includes(item.permission) || item.permission === undefined && (
               <ListItemLink
                 key={index}
                 to={joinedPath}

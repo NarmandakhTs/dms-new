@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 import {
   Login,
+  MyProjects,
+  NewProjects,
   NotFound,
   PermissionDenied,
   Project,
@@ -14,6 +16,8 @@ import {
   ProjectOverview,
   Projects,
   Students,
+  Settings,
+  Users,
 } from './pages'
 import {
   ThemeProvider
@@ -31,16 +35,19 @@ import App from './layouts/App'
 import { CssBaseline } from '@material-ui/core'
 
 function PermittedRoute({
+  permissions = [],
   permission,
   children,
   ...rest
 }) {
-  const permissions = useSelector(getPermissions)
+  const userPermissions = useSelector(getPermissions)
+  const requiredPermissions = [...permissions, permission].filter(val => val !== undefined)
+  const isPermitted = requiredPermissions.some(val => userPermissions.includes(val))
 
   return (
     <Route
       {...rest}
-      render={() => permission && permissions.includes(permission)
+      render={() => isPermitted
         ? children
         : <PermissionDenied />
       }
@@ -69,8 +76,56 @@ function AuthenticatedRoute({
   )
 }
 
+function SettingsRoutes() {
+  const { path } = useRouteMatch()
+
+  return (
+    <Switch>
+      <PermittedRoute
+        permissions={[
+          'view-all-users',
+          'view-all-roles'
+        ]}
+        path={`${path}/users`}
+      >
+        <Users />
+      </PermittedRoute>
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
+  )
+}
+
+function ProjectsRoutes() {
+  const { path } = useRouteMatch()
+
+  return (
+    <Switch>
+      <PermittedRoute
+        permission="view-my-projects"
+        path={`${path}/my`}
+      >
+        <MyProjects />
+      </PermittedRoute>
+      <Route path={`${path}/new`}>
+        <NewProjects />
+      </Route>
+      <PermittedRoute
+        permission="view-project"
+        path={`${path}/:id`}
+      >
+        <Project />
+      </PermittedRoute>
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
+  )
+}
+
 function ProjectRoutes() {
-  const { path, url } = useRouteMatch()
+  const { path } = useRouteMatch()
 
   return (
     <Switch>
@@ -86,9 +141,6 @@ function ProjectRoutes() {
       >
         <ProjectOverview />
       </PermittedRoute>
-      <PermittedRoute path={path}>
-        <Redirect to={`${url}/overview`} />
-      </PermittedRoute>
       <Route>
         <NotFound />
       </Route>
@@ -101,10 +153,19 @@ function AppRoutes() {
 
   return (
     <Switch>
-      <PermittedRoute path={`${path}/projects/:id`}>
+      <PermittedRoute
+        permission="view-my-project"
+        path={`${path}/my/project`}
+      >
         <Project />
       </PermittedRoute>
-      <PermittedRoute path={`${path}/projects`}>
+      <Route path={`${path}/settings`}>
+        <Settings />
+      </Route>
+      <PermittedRoute
+        permission="view-projects"
+        path={`${path}/projects`}
+      >
         <Projects />
       </PermittedRoute>
       <PermittedRoute
@@ -116,7 +177,7 @@ function AppRoutes() {
       <Route>
         <NotFound />
       </Route>
-    </Switch>
+    </Switch >
   )
 }
 
@@ -159,7 +220,9 @@ function Routes() {
 export {
   AuthRoutes,
   AppRoutes,
-  ProjectRoutes
+  ProjectsRoutes,
+  ProjectRoutes,
+  SettingsRoutes
 }
 
 export default Routes

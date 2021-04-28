@@ -12,7 +12,6 @@ const getUserFullname = ({ auth }) => {
   return { name, surname }
 }
 
-
 export {
   getPermissions,
   getAccessToken,

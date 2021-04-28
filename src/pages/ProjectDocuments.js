@@ -27,13 +27,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProjectDocuments() {
+function ProjectDocuments(props) {
   const classes = useStyles()
   const department = useSelector(getUserDepartment)
   const params = useParams()
   const [uploadStudentDialog, openUploadStudentDialog] = useState(false)
   const [uploadStudentsSuccess, setUploadStudentsSuccess] = useState(false)
   const [documents, setDocuments] = useState([])
+  const path = params.id ? `projects/${params.id}/documents` : 'my/project/documents'
 
   useEffect(() => {
     fetchData()
@@ -41,7 +42,7 @@ function ProjectDocuments() {
 
   const fetchData = async () => {
     try {
-      const { data } = await axios.get(`projects/${params.id}/documents`)
+      const { data } = await axios.get(path)
 
       setDocuments(data)
     } catch (e) {
@@ -93,7 +94,7 @@ function ProjectDocuments() {
       <DropZoneMultipleDialog
         title="Add Documents"
         extensions="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        uploadPath={`projects/${params.id}/documents/upload`}
+        uploadPath={path}
         open={uploadStudentDialog}
         onFinish={onUploadStudentsFinish}
         onClose={() => openUploadStudentDialog(false)}

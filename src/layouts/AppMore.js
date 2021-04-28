@@ -1,5 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles'
-import { useState } from 'react'
 import {
   Link,
   useLocation,
@@ -8,18 +6,15 @@ import {
 import {
   Box,
   Grid,
+  Typography,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  Typography
+  ListItemText
 } from '@material-ui/core'
-import { ProjectsRoutes } from './../Routes'
+import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import { getPermissions } from './../redux/auth/selectors'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
-import DocumentIcon from '@material-ui/icons/DescriptionOutlined'
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
 
 const useStyles = makeStyles((theme) => ({
   sideBar: {
@@ -58,36 +53,29 @@ function ListItemLink(props) {
   />
 }
 
-function Projects() {
+function AppMore({
+  children,
+  menuItems,
+  title
+}) {
   const classes = useStyles()
-  const permissions = useSelector(getPermissions)
+  const userPermissions = useSelector(getPermissions)
   const { pathname } = useLocation()
   const { url } = useRouteMatch()
-  const [menuItems] = useState([
-    {
-      to: '/my',
-      label: 'My Projects',
-      icon: <HomeIcon />,
-      permission: 'view-my-projects',
-    },
-    {
-      to: '/new',
-      label: 'New Projects',
-      icon: <DocumentIcon />,
-    },
-    {
-      to: '/discover',
-      label: 'Discover Projects',
-      icon: <QuestionAnswerIcon />,
-    },
-  ])
+
+  const isUserPermitted = (permission, permissions = []) => {
+    const requiredPermissions = [...permissions, permission].filter(val => val !== undefined)
+    return requiredPermissions.every(val => userPermissions.includes(val))
+  }
 
   return (
     <Grid container>
       <Grid item xs={3}>
         <Box className={classes.sideBar}>
           <Box mb={3}>
-            <Typography variant="h5">Projects</Typography>
+            <Typography variant="h5">
+              {title}
+            </Typography>
           </Box>
           <List
             component="nav"
@@ -96,7 +84,7 @@ function Projects() {
             {menuItems.map((item, index) => {
               const joinedPath = `${url}${item.to}`
 
-              return (item.permission === undefined || permissions.includes(item.permission)) && (
+              return isUserPermitted(item.permission, item.permissions) && (
                 <ListItemLink
                   key={index}
                   to={joinedPath}
@@ -117,10 +105,10 @@ function Projects() {
         </Box>
       </Grid>
       <Grid item xs>
-        <ProjectsRoutes />
+        {children}
       </Grid>
     </Grid>
   )
 }
 
-export default Projects
+export default AppMore
