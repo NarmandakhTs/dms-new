@@ -7,6 +7,7 @@ import Project from './Project'
 import ProjectDocuments from './ProjectDocuments'
 import ProjectOverview from './ProjectOverview'
 import Projects from './Projects'
+import ProjectsNew from './ProjectsNew'
 import RolesNew from './RolesNew'
 import Settings from './Settings'
 import Students from './Students'
@@ -22,6 +23,7 @@ export {
   ProjectDocuments,
   ProjectOverview,
   Projects,
+  ProjectsNew,
   RolesNew,
   Settings,
   Students,

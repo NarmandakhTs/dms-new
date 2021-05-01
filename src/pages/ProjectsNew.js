@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { RoleForm } from './../forms'
+import { ProjectsForm } from './../forms'
 import {
   Box,
-  Divider,
-  Typography,
-  Grid
+  Grid,
+  Typography
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function RolesNew() {
+function ProjectsNew() {
   const classes = useStyles()
 
   return (
@@ -28,7 +27,7 @@ function RolesNew() {
       <Grid item xs={8}>
         <Box className={classes.container}>
           <Box mb={1}>
-            <Typography>Create Role</Typography>
+            <Typography>Create Projects</Typography>
             <Typography
               color="textSecondary"
               variant="subtitle2"
@@ -38,11 +37,11 @@ function RolesNew() {
               </Box>
             </Typography>
           </Box>
-          <RoleForm />
+          <ProjectsForm />
         </Box>
       </Grid>
     </Grid>
   )
 }
 
-export default RolesNew
+export default ProjectsNew

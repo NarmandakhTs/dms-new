@@ -4,10 +4,12 @@ import {
 } from 'react'
 import {
   Avatar,
+  Button,
   Box,
   Grid,
   Typography
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from './../plugins/axios'
 
@@ -43,7 +45,28 @@ function MyProjects() {
   }
 
   return (
-    <Box p={5}>
+    <Box p={3}>
+      <Box mb={5}>
+        <Grid
+          container
+          justify="space-between"
+        >
+          <Grid item>
+            <Typography variant="h6">
+              <Box fontWeight="fontWeightMedium">My Projects</Box>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              size="large"
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="my/new"
+            >Create Project</Button>
+          </Grid>
+        </Grid>
+      </Box>
       <Grid
         container
         spacing={3}
@@ -71,7 +94,7 @@ function MyProjects() {
                 color="textSecondary"
               >
                 <Box lineHeight="22.1px">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tellus sem, vehicula sed finibus non, porta eu mi. Pellentesque ut laoreet ipsum.
+                  {item.overview}
                 </Box>
               </Typography>
             </Box>
