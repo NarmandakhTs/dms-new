@@ -16,6 +16,7 @@ import {
   ProjectOverview,
   Projects,
   Students,
+  RolesNew,
   Settings,
   Users,
 } from './pages'
@@ -81,6 +82,12 @@ function SettingsRoutes() {
 
   return (
     <Switch>
+      <PermittedRoute
+        permission="create-role"
+        path={`${path}/roles/new`}
+      >
+        <RolesNew />
+      </PermittedRoute>
       <PermittedRoute
         permissions={[
           'view-all-users',

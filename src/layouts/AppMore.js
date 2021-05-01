@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     position: 'fixed',
     top: 0,
-    bottom: 0
+    bottom: 0,
+    boxShadow: `1px 0 2px ${theme.palette.primary.main}10`
   },
   sideBarAvatar: {
     width: theme.spacing(7),

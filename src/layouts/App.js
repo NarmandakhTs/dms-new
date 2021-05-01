@@ -128,7 +128,7 @@ function App() {
           {menuItems.map((item, index) => {
             const joinedPath = `${url}${item.to}`
 
-            return permissions.includes(item.permission) || item.permission === undefined && (
+            return (permissions.includes(item.permission) || item.permission === undefined) && (
               <ListItemLink
                 key={index}
                 to={joinedPath}
