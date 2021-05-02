@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Grid,
   Typography
 } from '@material-ui/core'
@@ -116,13 +117,14 @@ function NewProjects() {
   }, [])
 
   const fetchData = async () => {
-    try {
-      const { data } = await axios.get('new/projects')
+    const { data } = await axios.get('new/projects')
+    setProjects(data)
+  }
 
-      setProjects(data)
-    } catch (e) {
-      // 
-    }
+  const handleApply = async () => {
+    const projectId = getSelectedProject().id
+    await axios.post(`projects/${projectId}/apply`)
+    fetchData()
   }
 
   const isProjectSelected = () => selectedProjectIndex !== null
@@ -204,6 +206,16 @@ function NewProjects() {
                 <Typography color="textSecondary">
                   {getSelectedProject().overview}
                 </Typography>
+                <Box width={150} mt={3}>
+                  <Button
+                    disabled={getSelectedProject().applies_count}
+                    onClick={handleApply}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >Apply</Button>
+                </Box>
               </Box>
             </Box>
           </Grid>

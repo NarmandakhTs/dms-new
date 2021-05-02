@@ -24,7 +24,7 @@ function ProjectsNew() {
       container
       justify="center"
     >
-      <Grid item xs={8}>
+      <Grid item xs={5}>
         <Box className={classes.container}>
           <Box mb={1}>
             <Typography>Create Projects</Typography>

@@ -17,7 +17,6 @@ import {
 import { ProjectsRoutes } from './../Routes'
 import { useSelector } from 'react-redux'
 import { getPermissions } from './../redux/auth/selectors'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
 import DocumentIcon from '@material-ui/icons/DescriptionOutlined'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
 
@@ -64,12 +63,6 @@ function Projects() {
   const { pathname } = useLocation()
   const { url } = useRouteMatch()
   const [menuItems] = useState([
-    {
-      to: '/my',
-      label: 'My Projects',
-      icon: <HomeIcon />,
-      permission: 'view-my-projects',
-    },
     {
       to: '/new',
       label: 'New Projects',

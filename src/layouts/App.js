@@ -20,9 +20,9 @@ import {
   ListItemIcon
 } from '@material-ui/core'
 import Logo from './../assets/images/logo.svg'
+import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import PeopleIcon from '@material-ui/icons/People'
-import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import SettingsIcon from '@material-ui/icons/Settings'
 
 const drawerWidth = 60
@@ -88,6 +88,12 @@ function App() {
       label: 'My Project',
       icon: <DashboardIcon />,
       permission: 'view-my-project',
+    },
+    {
+      to: '/my/projects',
+      label: 'My Projects',
+      icon: <DashboardIcon />,
+      permission: 'view-my-projects',
     },
     {
       to: `/projects/2`,

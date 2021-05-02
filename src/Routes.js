@@ -110,26 +110,8 @@ function ProjectsRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/my/new`}>
-        <ProjectsNew />
-      </Route>
-      <PermittedRoute
-        permission="view-my-projects"
-        path={`${path}/my`}
-      >
-        <MyProjects />
-      </PermittedRoute>
       <Route path={`${path}/new`}>
         <NewProjects />
-      </Route>
-      <PermittedRoute
-        permission="view-project"
-        path={`${path}/:id`}
-      >
-        <Project />
-      </PermittedRoute>
-      <Route>
-        <NotFound />
       </Route>
     </Switch>
   )
@@ -169,6 +151,15 @@ function AppRoutes() {
         path={`${path}/my/project`}
       >
         <Project />
+      </PermittedRoute>
+      <Route path={`${path}/my/projects/new`}>
+        <ProjectsNew />
+      </Route>
+      <PermittedRoute
+        permission="view-my-projects"
+        path={`${path}/my/projects`}
+      >
+        <MyProjects />
       </PermittedRoute>
       <Route path={`${path}/settings`}>
         <Settings />
