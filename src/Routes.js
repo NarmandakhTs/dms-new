@@ -157,6 +157,12 @@ function AppRoutes() {
       </Route>
       <PermittedRoute
         permission="view-my-projects"
+        path={`${path}/my/projects/:id`}
+      >
+        <Project />
+      </PermittedRoute>
+      <PermittedRoute
+        permission="view-my-projects"
         path={`${path}/my/projects`}
       >
         <MyProjects />

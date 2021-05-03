@@ -19,16 +19,20 @@ import {
   ListItemText,
   Typography
 } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { getPermissions } from './../redux/auth/selectors'
 import { ProjectRoutes } from './../Routes'
 import axios from './../plugins/axios'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
 import DocumentIcon from '@material-ui/icons/DescriptionOutlined'
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
 import CommentIcon from '@material-ui/icons/CommentOutlined'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import HomeIcon from '@material-ui/icons/HomeOutlined'
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
 
 const useStyles = makeStyles((theme) => ({
   sideBar: {
-    backgroundColor: '#fff',
+    backgroundColor: `${theme.palette.primary.main}05`,
+    borderRight: `1px solid ${theme.palette.primary.main}20`,
     padding: theme.spacing(3),
     height: '100vh',
   },
@@ -61,6 +65,7 @@ function ListItemLink(props) {
 function Project() {
   const classes = useStyles()
   const params = useParams()
+  const permissions = useSelector(getPermissions)
   const { pathname } = useLocation()
   const { url } = useRouteMatch()
   const [project, setProject] = useState({})
@@ -84,6 +89,12 @@ function Project() {
       to: '/notes',
       label: 'Notes',
       icon: <CommentIcon />,
+    },
+    {
+      to: '/applies',
+      label: 'Хамрагдах хүсэлтүүд',
+      icon: <CheckCircleOutlineIcon />,
+      permission: 'view-project-applies'
     }
   ])
 
@@ -92,15 +103,9 @@ function Project() {
   }, [])
 
   const fetchData = async () => {
-    try {
-      const path = params.id ? `projects/${params.id}` : 'my/project'
-
-      const { data } = await axios.get(path)
-
-      setProject(data)
-    } catch (e) {
-      // 
-    }
+    const path = params.id ? `projects/${params.id}` : 'my/project'
+    const { data } = await axios.get(path)
+    setProject(data)
   }
 
   return (
@@ -140,7 +145,7 @@ function Project() {
             {menuItems.map((item, index) => {
               const joinedPath = `${url}${item.to}`
 
-              return (
+              return (item.permission === undefined || permissions.includes(item.permission)) && (
                 <ListItemLink
                   key={index}
                   to={joinedPath}

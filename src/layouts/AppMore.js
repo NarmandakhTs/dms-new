@@ -18,16 +18,13 @@ import { getPermissions } from './../redux/auth/selectors'
 
 const useStyles = makeStyles((theme) => ({
   sideBar: {
-    backgroundColor: '#fff',
+    backgroundColor: `${theme.palette.primary.main}05`,
+    borderRight: `1px solid ${theme.palette.primary.main}20`,
     padding: theme.spacing(3),
     position: 'fixed',
     top: 0,
     bottom: 0,
     boxShadow: `1px 0 2px ${theme.palette.primary.main}10`
-  },
-  sideBarAvatar: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
   },
   list: {
     padding: 0,

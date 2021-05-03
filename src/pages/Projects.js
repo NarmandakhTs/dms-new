@@ -22,7 +22,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswerOutlined'
 
 const useStyles = makeStyles((theme) => ({
   sideBar: {
-    backgroundColor: '#fff',
+    backgroundColor: `${theme.palette.primary.main}05`,
+    borderRight: `1px solid ${theme.palette.primary.main}20`,
     padding: theme.spacing(3),
     position: 'fixed',
     top: 0,

@@ -12,13 +12,27 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from './../plugins/axios'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
+  projects: {
+    width: '100%',
+    height: '100vh',
+    overflowY: 'scroll',
+    padding: theme.spacing(2)
+  },
   projectCard: {
-    backgroundColor: '#fff',
     padding: theme.spacing(2),
+    border: `1px solid ${theme.palette.primary.main}20`,
     borderRadius: theme.shape.borderRadius,
-    boxShadow: '0 2px 10px #efefef',
+    transition: '.15s'
+  },
+  projectCardActive: {
+    color: '#fff',
+    backgroundColor: theme.palette.primary.light,
+    '& $projectCardAvatar': {
+      backgroundColor: '#ffffff20',
+    },
   },
   projectCardBody: {
     overflow: 'hidden',
@@ -30,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   projectCardAvatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+    backgroundColor: '#00000030'
   },
   projectCardCover: {
     height: theme.spacing(10),
@@ -39,73 +54,17 @@ const useStyles = makeStyles((theme) => ({
   projectCardAvatarCover: {
     width: theme.spacing(8),
     height: theme.spacing(8),
+    backgroundColor: theme.palette.primary.light,
     transform: 'translateY(-50%)',
     border: '5px solid white'
+  },
+  projectMore: {
+    padding: theme.spacing(2),
+    borderLeft: `1px solid ${theme.palette.primary.main}20`,
+    height: '100vh',
+    position: 'fixed'
   }
 }))
-
-function ProjectsGrid({ items, onItemSelected }) {
-  const classes = useStyles()
-
-  return (
-    <Grid
-      container
-      item
-      xs
-      spacing={3}
-    >
-      {items.map((item, index) =>
-        <Grid
-          key={index}
-          xs={4}
-          item
-        >
-          <Box className={classes.projectCard}>
-            <Avatar
-              variant="rounded"
-              className={classes.projectCardAvatar}
-            >
-              {item.name ? item.name.charAt(0) : ''}
-            </Avatar>
-            <Box mt={2} mb={1}>
-              <Typography>
-                <Box fontWeight="fontWeightMedium">{item.name}</Box>
-              </Typography>
-            </Box>
-            <Box className={classes.projectCardBody}>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-              >
-                <Box lineHeight="22.1px">
-                  {item.overview}
-                </Box>
-              </Typography>
-            </Box>
-            <Box mt={3}>
-              <Button
-                onClick={() => onItemSelected(index)}
-                fullWidth
-                variant="outlined"
-                color="primary"
-              >Select</Button>
-            </Box>
-          </Box>
-        </Grid>
-      )}
-    </Grid>
-  )
-}
-
-function ProjectsList({ items, selectedItem }) {
-  const classes = useStyles()
-  return (
-    <Grid container>
-      <Grid item></Grid>
-      <Grid item></Grid>
-    </Grid>
-  )
-}
 
 function NewProjects() {
   const classes = useStyles()
@@ -131,62 +90,59 @@ function NewProjects() {
   const getSelectedProject = () => projects[selectedProjectIndex]
 
   return (
-    <Box p={3}>
-      <Grid
-        container
-        spacing={3}
-      >
-        <Grid
-          container
-          item
-          xs
-          spacing={3}
-        >
-          {projects.map((item, index) =>
+    <Box>
+      <Grid container>
+        <Grid item xs>
+          <Box className={classes.projects}>
             <Grid
-              key={index}
-              item
-              xs={isProjectSelected() ? 12 : 4}
+              container
+              spacing={2}
             >
-              <Box className={classes.projectCard}>
-                <Avatar
-                  variant="rounded"
-                  className={classes.projectCardAvatar}
+              {projects.map((item, index) =>
+                <Grid
+                  key={index}
+                  item
+                  xs={isProjectSelected() ? 12 : 4}
                 >
-                  {item.name ? item.name.charAt(0) : ''}
-                </Avatar>
-                <Box mt={2} mb={1}>
-                  <Typography>
-                    <Box fontWeight="fontWeightMedium">{item.name}</Box>
-                  </Typography>
-                </Box>
-                {!isProjectSelected() && (
-                  <Box className={classes.projectCardBody}>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                    >
-                      <Box lineHeight="22.1px">
-                        {item.overview}
-                      </Box>
-                    </Typography>
-                  </Box>
-                )}
-                <Box mt={3}>
-                  <Button
+                  <Box
                     onClick={() => setSelectedProjectIndex(index)}
-                    fullWidth
-                    variant="outlined"
-                    color="primary"
-                  >Select</Button>
-                </Box>
-              </Box>
+                    className={clsx({
+                      [classes.projectCard]: true,
+                      [classes.projectCardActive]: index === selectedProjectIndex
+                    })}
+                  >
+                    <Avatar
+                      variant="rounded"
+                      className={classes.projectCardAvatar}
+                    >
+                      {item.name ? item.name.charAt(0) : ''}
+                    </Avatar>
+                    <Box mt={2} mb={1}>
+                      <Typography>
+                        <Box fontWeight="fontWeightMedium">{item.name}</Box>
+                      </Typography>
+                    </Box>
+                    {!isProjectSelected() && (
+                      <Box className={classes.projectCardBody}>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          <Box lineHeight="22.1px">
+                            {item.overview}
+                          </Box>
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
+              )}
             </Grid>
-          )}
+          </Box>
         </Grid>
         {isProjectSelected() && (
-          <Grid item xs={8}>
-            <Box className={classes.projectCard}>
+          <Grid item xs={7}>
+            <Box className={classes.projectMore}>
               <Box className={classes.projectCardCover} />
               <Box mx={3}>
                 <Avatar

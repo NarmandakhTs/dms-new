@@ -19,7 +19,7 @@ import axios from './../plugins/axios'
 
 const useStyles = makeStyles((theme) => ({
   projectCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.secondary.main,
     padding: theme.spacing(3),
     borderRadius: theme.shape.borderRadius,
     boxShadow: '0 2px 5px #efefef',
@@ -27,7 +27,12 @@ const useStyles = makeStyles((theme) => ({
   projectAvatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+    backgroundColor: '#ffffff20',
   },
+  projectTitle: {
+    color: '#fff',
+    textDecoration: 'none'
+  }
 }))
 
 function MyProjects() {
@@ -91,7 +96,10 @@ function MyProjects() {
                   {item.name ? item.name.charAt(0) : ''}
                 </Avatar>
                 <Box mt={2} mb={1}>
-                  <Link to={`${item.id}`}>
+                  <Link
+                    to={`${url}/${item.id}`}
+                    className={classes.projectTitle}
+                  >
                     <Typography>
                       <Box fontWeight="fontWeightMedium">{item.name}</Box>
                     </Typography>

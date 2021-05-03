@@ -96,12 +96,6 @@ function App() {
       permission: 'view-my-projects',
     },
     {
-      to: `/projects/2`,
-      label: 'My Project',
-      icon: <DashboardIcon />,
-      permission: 'view-project',
-    },
-    {
       to: '/projects',
       label: 'Projects',
       icon: <AccountTreeIcon />,

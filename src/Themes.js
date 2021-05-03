@@ -8,8 +8,11 @@ const AppTheme = createMuiTheme({
     primary: {
       main: '#262F3E'
     },
+    secondary: {
+      main: '#5446e2'
+    },
     background: {
-      default: "#f7f9fc"
+      default: "#fff"
     },
   },
   typography: {
