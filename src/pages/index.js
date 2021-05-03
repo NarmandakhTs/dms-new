@@ -1,3 +1,4 @@
+import DiscoverProjects from './DiscoverProjects'
 import Login from './Login'
 import MyProjects from './MyProjects'
 import NewProjects from './NewProjects'
@@ -14,6 +15,7 @@ import Students from './Students'
 import Users from './Users'
 
 export {
+  DiscoverProjects,
   Login,
   MyProjects,
   NewProjects,

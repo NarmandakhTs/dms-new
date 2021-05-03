@@ -6,6 +6,7 @@ import {
   useRouteMatch
 } from 'react-router-dom'
 import {
+  DiscoverProjects,
   Login,
   MyProjects,
   NewProjects,
@@ -112,6 +113,9 @@ function ProjectsRoutes() {
     <Switch>
       <Route path={`${path}/new`}>
         <NewProjects />
+      </Route>
+      <Route path={`${path}/discover`}>
+        <DiscoverProjects />
       </Route>
     </Switch>
   )
