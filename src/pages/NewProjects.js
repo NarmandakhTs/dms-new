@@ -26,7 +26,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     border: `1px solid ${theme.palette.primary.main}20`,
     borderRadius: theme.shape.borderRadius,
-    transition: '.15s'
+    cursor: 'pointer',
+    transition: '.15s',
+    '&:hover': {
+      borderColor: theme.palette.primary.main
+    }
   },
   projectCardActive: {
     color: '#fff',
@@ -87,6 +91,10 @@ function NewProjects() {
     fetchData()
   }
 
+  const handleSelect = index => {
+    setSelectedProjectIndex(prevIndex => prevIndex === index ? null : index)
+  }
+
   const isProjectSelected = () => selectedProjectIndex !== null
   const getSelectedProject = () => projects[selectedProjectIndex]
 
@@ -111,7 +119,7 @@ function NewProjects() {
                 xs={isProjectSelected() ? 12 : 4}
               >
                 <Box
-                  onClick={() => setSelectedProjectIndex(index)}
+                  onClick={() => handleSelect(index)}
                   className={clsx({
                     [classes.projectCard]: true,
                     [classes.projectCardActive]: index === selectedProjectIndex
