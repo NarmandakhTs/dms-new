@@ -22,6 +22,7 @@ import {
 import Logo from './../assets/images/logo.svg'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import EventNoteIcon from '@material-ui/icons/EventNote'
 import PeopleIcon from '@material-ui/icons/People'
 import SettingsIcon from '@material-ui/icons/Settings'
 
@@ -82,6 +83,11 @@ function App() {
       label: 'Students',
       icon: <PeopleIcon />,
       permission: 'view-students',
+    },
+    {
+      to: '/schedules',
+      label: 'Schedules',
+      icon: <EventNoteIcon />,
     },
     {
       to: '/my/project',

@@ -17,9 +17,10 @@ import {
   ProjectOverview,
   Projects,
   ProjectsNew,
-  Students,
   RolesNew,
+  Schedules,
   Settings,
+  Students,
   Users,
 } from './pages'
 import {
@@ -186,6 +187,9 @@ function AppRoutes() {
       >
         <Students />
       </PermittedRoute>
+      <Route path={`${path}/schedules`}>
+        <Schedules />
+      </Route>
       <Route>
         <NotFound />
       </Route>
