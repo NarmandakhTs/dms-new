@@ -12,6 +12,12 @@ function ProjectsForm() {
   const [disabled, setDisabled] = useState(false)
   const [errors, setErrors] = useState({})
 
+  const reset = () => {
+    setName('')
+    setOverview('')
+    setDisabled(false)
+  }
+
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -24,7 +30,7 @@ function ProjectsForm() {
         overview
       })
 
-      setDisabled(false)
+      reset()
     } catch ({ response }) {
       if (response.status === 422) {
         setErrors(response.data.errors)

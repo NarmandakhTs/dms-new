@@ -1,21 +1,22 @@
-import { makeStyles } from '@material-ui/core/styles'
-import { ProjectsForm } from './../forms'
+import { useState } from 'react'
 import {
   Box,
   Grid,
   Typography
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { RequestForm } from './../forms'
 
 const useStyles = makeStyles((theme) => ({
   container: {
     border: `1px solid ${theme.palette.grey[300]}`,
     borderRadius: theme.spacing(1),
-    padding: theme.spacing(2, 3),
-    margin: theme.spacing(5, 0)
+    padding: theme.spacing(1, 2),
+    margin: theme.spacing(5, 0),
   }
 }))
 
-function ProjectsNew() {
+function ProjectRequestsNew() {
   const classes = useStyles()
 
   return (
@@ -26,7 +27,7 @@ function ProjectsNew() {
       <Grid item xs={6}>
         <Box className={classes.container}>
           <Box mb={1}>
-            <Typography>Create Projects</Typography>
+            <Typography>Create Request</Typography>
             <Typography
               color="textSecondary"
               variant="subtitle2"
@@ -36,11 +37,11 @@ function ProjectsNew() {
               </Box>
             </Typography>
           </Box>
-          <ProjectsForm />
+          <RequestForm />
         </Box>
       </Grid>
     </Grid>
   )
 }
 
-export default ProjectsNew
+export default ProjectRequestsNew

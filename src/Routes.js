@@ -15,6 +15,9 @@ import {
   Project,
   ProjectDocuments,
   ProjectOverview,
+  ProjectRequest,
+  ProjectRequests,
+  ProjectRequestsNew,
   Projects,
   ProjectsNew,
   RolesNew,
@@ -127,6 +130,15 @@ function ProjectRoutes() {
 
   return (
     <Switch>
+      <Route path={`${path}/requests/new`}>
+        <ProjectRequestsNew />
+      </Route>
+      <Route path={`${path}/requests/:sid`}>
+        <ProjectRequest />
+      </Route>
+      <Route path={`${path}/requests`}>
+        <ProjectRequests />
+      </Route>
       <PermittedRoute
         permission="view-project-documents"
         path={`${path}/documents`}

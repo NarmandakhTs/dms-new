@@ -17,6 +17,7 @@ const AppTheme = createMuiTheme({
   },
   typography: {
     fontSize: 13,
+    lineHeight: 30
   },
 })
 

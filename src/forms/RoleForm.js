@@ -42,6 +42,12 @@ function RoleForm() {
     }
   }
 
+  const reset = () => {
+    setTitle('')
+    setCode('')
+    setDisabled(false)
+  }
+
   const handleStore = async e => {
     e.preventDefault()
 
@@ -59,10 +65,11 @@ function RoleForm() {
     try {
       await axios.post('roles', params)
 
-      setDisabled(false)
+      reset()
     } catch ({ response }) {
       if (response.status === 422) {
-        console.log(response)
+        setErrors(response.data)
+        setDisabled(false)
       }
     }
   }
@@ -73,6 +80,11 @@ function RoleForm() {
     setPermissions(copyPermissions)
   }
 
+  const errorMessage = name => ({
+    error: !!errors[name],
+    helperText: errors[name]
+  })
+
   return (
     <form onSubmit={handleStore}>
       <Grid
@@ -81,6 +93,7 @@ function RoleForm() {
       >
         <Grid item xs>
           <TextField
+            {...errorMessage('title')}
             onChange={({ target }) => setTitle(target.value)}
             value={title}
             label="Title"
@@ -92,6 +105,7 @@ function RoleForm() {
         </Grid>
         <Grid item xs>
           <TextField
+            {...errorMessage('code')}
             onChange={({ target }) => setCode(target.value)}
             value={code}
             label="Code"

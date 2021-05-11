@@ -7,6 +7,9 @@ import PermissionDenied from './PermissionDenied'
 import Project from './Project'
 import ProjectDocuments from './ProjectDocuments'
 import ProjectOverview from './ProjectOverview'
+import ProjectRequest from './ProjectRequest'
+import ProjectRequests from './ProjectRequests'
+import ProjectRequestsNew from './ProjectRequestsNew'
 import Projects from './Projects'
 import ProjectsNew from './ProjectsNew'
 import RolesNew from './RolesNew'
@@ -25,6 +28,9 @@ export {
   Project,
   ProjectDocuments,
   ProjectOverview,
+  ProjectRequest,
+  ProjectRequests,
+  ProjectRequestsNew,
   Projects,
   ProjectsNew,
   RolesNew,

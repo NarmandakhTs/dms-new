@@ -41,13 +41,8 @@ function ProjectDocuments(props) {
   }, [])
 
   const fetchData = async () => {
-    try {
-      const { data } = await axios.get(path)
-
-      setDocuments(data)
-    } catch (e) {
-      // 
-    }
+    const { data } = await axios.get(path)
+    setDocuments(data)
   }
 
   const onUploadStudentsFinish = () => {
