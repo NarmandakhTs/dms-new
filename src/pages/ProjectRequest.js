@@ -123,42 +123,54 @@ function ProjectRequest() {
           </Typography>
         </Box>
       </Grid>
-      {user.id === approverId && (
-        <Grid item>
-          <Grid
-            container
-            spacing={2}
-          >
+      <Grid item>
+        <Grid
+          container
+          spacing={2}
+        >
+          {user.id === approverId ? (
+            <>
+              <Grid item>
+                <Button
+                  disabled={approved}
+                  onClick={() => handleApproved(false)}
+                  startIcon={<BlockIcon />}
+                  className={approved === false && classes.declinedButton}
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                >
+                  {approved ? 'Declined' : 'Decline'}
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  disabled={approved === false}
+                  onClick={() => handleApproved(true)}
+                  startIcon={<CheckIcon />}
+                  className={approved && classes.successButton}
+                  variant={approved ? 'outlined' : 'contained'}
+                  color="primary"
+                  size="large"
+                >
+                  {approved ? 'Approved' : 'Approve'}
+                </Button>
+              </Grid>
+            </>
+          ) : (
             <Grid item>
               <Button
-                disabled={approved}
-                onClick={() => handleApproved(false)}
-                startIcon={<BlockIcon />}
-                className={approved === false && classes.declinedButton}
+                disabled
+                startIcon={<CheckIcon />}
+                className={classes.successButton}
                 variant="outlined"
                 color="primary"
                 size="large"
-              >
-                {approved ? 'Declined' : 'Decline'}
-
-              </Button>
+              >Approved</Button>
             </Grid>
-            <Grid item>
-              <Button
-                disabled={approved === false}
-                onClick={() => handleApproved(true)}
-                startIcon={<CheckIcon />}
-                className={approved && classes.successButton}
-                variant={approved ? 'outlined' : 'contained'}
-                color="primary"
-                size="large"
-              >
-                {approved ? 'Approved' : 'Approve'}
-              </Button>
-            </Grid>
-          </Grid>
+          )}
         </Grid>
-      )}
+      </Grid>
     </Grid>
   )
 
