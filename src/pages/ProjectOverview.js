@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.grey[300]}`,
     padding: theme.spacing(1.5, 2),
     borderRadius: theme.spacing(1)
+  },
+  paragraph: {
+    lineHeight: '30px',
+    color: theme.palette.grey[700]
   }
 }))
 
@@ -105,7 +109,7 @@ function ProjectApply() {
                 color="primary"
                 size="large"
                 variant="outlined"
-              >Decline</Button>
+              >Цуцлах</Button>
             </Grid>
             <Grid item>
               <Button
@@ -113,7 +117,7 @@ function ProjectApply() {
                 color="primary"
                 size="large"
                 variant="contained"
-              >Approve</Button>
+              >Зөвшөөрөх</Button>
             </Grid>
           </Grid>
         </Grid>
@@ -123,10 +127,30 @@ function ProjectApply() {
 }
 
 function ProjectOverview() {
+  const classes = useStyles()
+  const [project, setProject] = useState({})
+
+  useEffect(() => {
+    fetchProject()
+  }, [])
+
+  const fetchProject = async () => {
+    const { data } = await axios.get('my/project')
+    setProject(data)
+  }
+
   return (
-    <Container>
-      <Box my={2}>
+    <Container maxWidth="md">
+      <Box py={4}>
         <ProjectApply />
+      </Box>
+      <Box>
+        <Box mb={2}>
+          <Typography variant="h6">Товч танилцуулга</Typography>
+        </Box>
+        <Typography className={classes.paragraph}>
+          {project.overview}
+        </Typography>
       </Box>
     </Container>
   )

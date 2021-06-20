@@ -125,10 +125,10 @@ function Students() {
   return (
     <Box p={5}>
       <PageHeader
-        title="Students"
+        title="Оюутнууд"
         breadcrumbs={[
-          { label: 'App', to: '/' },
-          { label: 'Students' },
+          { label: 'Апп', to: '/' },
+          { label: 'Оюутнууд' },
         ]}
         actions={
           <MaterialGrid
@@ -142,14 +142,7 @@ function Students() {
                 startIcon={<PublishIcon />}
                 variant="outlined"
                 color="primary"
-              >Upload Users</Button>
-            </MaterialGrid>
-            <MaterialGrid item>
-              <Button
-                startIcon={<AddIcon />}
-                variant="outlined"
-                color="primary"
-              >Add Users</Button>
+              >Оюутан оруулах</Button>
             </MaterialGrid>
           </MaterialGrid>
         }
@@ -192,7 +185,7 @@ function Students() {
           />
         </Grid>
         <DropZoneDialog
-          title="Upload Users"
+          title="Оюутан оруулах"
           extensions="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           uploadPath={`departments/${department}/students`}
           open={uploadStudentDialog}

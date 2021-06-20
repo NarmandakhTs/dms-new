@@ -8,11 +8,13 @@ import {
   Button,
   Container,
   Grid,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from './../plugins/axios'
 import clsx from 'clsx'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const useStyles = makeStyles((theme) => ({
   projects: {
@@ -68,27 +70,88 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: `1px solid ${theme.palette.primary.main}20`,
     height: '100vh',
     position: 'fixed'
-  }
+  },
+  filter: {
+    position: 'relative',
+    '& select': {
+      width: '100%',
+      height: theme.spacing(6),
+      border: `1px solid ${theme.palette.grey[300]}`,
+      borderRadius: theme.spacing(1),
+      boxShadow: `0 2px 10px #eee`,
+      paddingLeft: theme.spacing(10),
+      transition: '.2s',
+      '-webkit-appearance': 'none',
+      '-moz-appearance': 'none',
+      '&:focus': {
+        outline: 0,
+        borderColor: theme.palette.primary.main,
+        boxShadow: `0 0 0 5px ${theme.palette.secondary.main}20`,
+      },
+    },
+  },
+  filterLabel: {
+    position: 'absolute',
+    left: theme.spacing(2),
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
+  iconLeft: {
+    position: 'absolute',
+    left: theme.spacing(2),
+    top: '50%',
+    transform: 'translateY(-45%)',
+  },
+  iconRight: {
+    position: 'absolute',
+    right: theme.spacing(2),
+    top: '50%',
+    transform: 'translateY(-45%)',
+  },
 }))
 
 function NewProjects() {
   const classes = useStyles()
+  const [teachers, setTeachers] = useState([])
+  const [teacher, setTeacher] = useState('')
+  const [categories, setCategories] = useState([])
+  const [category, setCategory] = useState('')
   const [projects, setProjects] = useState([])
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(null)
 
   useEffect(() => {
-    fetchData()
+    fetchTeachers()
+    fetchCategories()
   }, [])
 
-  const fetchData = async () => {
-    const { data } = await axios.get('new/projects')
+  useEffect(() => {
+    fetchProjects()
+  }, [teacher, category])
+
+  const fetchTeachers = async () => {
+    const { data } = await axios.get('my/graduation/teachers')
+    setTeachers(data)
+  }
+
+  const fetchCategories = async () => {
+    const { data } = await axios.get('projects/categories')
+    setCategories(data)
+  }
+
+  const fetchProjects = async () => {
+    const { data } = await axios.get('new/projects', {
+      params: {
+        teacher,
+        category
+      }
+    })
     setProjects(data)
   }
 
   const handleApply = async () => {
     const projectId = getSelectedProject().id
     await axios.post(`projects/${projectId}/apply`)
-    fetchData()
+    fetchProjects()
   }
 
   const handleSelect = index => {
@@ -104,10 +167,69 @@ function NewProjects() {
         <Container className={classes.projects}>
           {!isProjectSelected() && (
             <Box mb={5}>
-              <Typography variant="h6">New Projects</Typography>
+              <Typography variant="h6">Төслийн сэдэвүүд</Typography>
               <Typography color="textSecondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
             </Box>
           )}
+          <Box mb={2}>
+            <Grid
+              container
+              spacing={2}
+            >
+              <Grid item xs>
+                <Box className={classes.filter}>
+                  <Box className={classes.filterLabel}>
+                    <Typography variant="subtitle2">
+                      Удирдагч:
+                    </Typography>
+                  </Box>
+                  <Box className={classes.iconRight}>
+                    <ExpandMoreIcon />
+                  </Box>
+                  <select
+                    value={teacher}
+                    onChange={({ target }) => setTeacher(target.value)}
+                  >
+                    <option value="">Бүгд</option>
+                    {teachers.map(value =>
+                      <option
+                        key={value.id}
+                        value={value.id}
+                      >
+                        {`${value.surname.charAt(0)}. ${value.name}`}
+                      </option>
+                    )}
+                  </select>
+                </Box>
+              </Grid>
+              <Grid item xs>
+                <Box className={classes.filter}>
+                  <Box className={classes.filterLabel}>
+                    <Typography variant="subtitle2">
+                      Төрөл:
+                    </Typography>
+                  </Box>
+                  <Box className={classes.iconRight}>
+                    <ExpandMoreIcon />
+                  </Box>
+                  <select
+                    value={category}
+                    onChange={({ target }) => setCategory(target.value)}
+                  >
+                    <option value="">Бүгд</option>
+                    {categories.map(value =>
+                      <option
+                        key={value.id}
+                        value={value.id}
+                      >
+                        {value.name}
+                      </option>
+                    )}
+                  </select>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
           <Grid
             container
             spacing={2}
@@ -170,13 +292,42 @@ function NewProjects() {
               </Typography>
               <Box mt={2} mb={1}>
                 <Typography>
-                  <Box fontWeight="fontWeightMedium">Overview</Box>
+                  <Box fontWeight="fontWeightMedium">Танилцуулга</Box>
                 </Typography>
               </Box>
-              <Typography color="textSecondary">
+              <Typography color="textSecondary" style={{ lineHeight: '26px' }}>
                 {getSelectedProject().overview}
               </Typography>
-              <Box width={150} mt={3}>
+              <Grid
+                container
+                spacing={5}
+              >
+                <Grid item>
+                  <Box mt={2} mb={1}>
+                    <Typography>
+                      <Box fontWeight="fontWeightMedium">Удирдагч</Box>
+                    </Typography>
+                  </Box>
+                  {getSelectedProject().users.map(val =>
+                    <Typography color="textSecondary" >
+                      {`${val.surname.charAt(0)}. ${val.name}`}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item>
+                  <Box mt={2} mb={1}>
+                    <Typography>
+                      <Box fontWeight="fontWeightMedium">Төрөл</Box>
+                    </Typography>
+                  </Box>
+                  {getSelectedProject().categories.map(val =>
+                    <Typography color="textSecondary" >
+                      {val.name}
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
+              <Box width={200} mt={3}>
                 <Button
                   disabled={getSelectedProject().applies_count}
                   onClick={handleApply}
@@ -184,13 +335,14 @@ function NewProjects() {
                   variant="contained"
                   color="primary"
                   fullWidth
-                >Apply</Button>
+                >Хүсэлт илгээх</Button>
               </Box>
             </Box>
           </Box>
         </Grid>
-      )}
-    </Grid>
+      )
+      }
+    </Grid >
   )
 }
 

@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import {
   DiscoverProjects,
+  Documents,
   Login,
   MyProjects,
   NewProjects,
@@ -20,6 +21,8 @@ import {
   ProjectRequestsNew,
   Projects,
   ProjectsNew,
+  Reports,
+  Results,
   RolesNew,
   Schedules,
   Settings,
@@ -199,6 +202,15 @@ function AppRoutes() {
       >
         <Students />
       </PermittedRoute>
+      <Route path={`${path}/reports`}>
+        <Reports />
+      </Route>
+      <Route path={`${path}/documents`}>
+        <Documents />
+      </Route>
+      <Route path={`${path}/results`}>
+        <Results />
+      </Route>
       <Route path={`${path}/schedules`}>
         <Schedules />
       </Route>

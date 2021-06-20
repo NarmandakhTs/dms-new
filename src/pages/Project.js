@@ -72,23 +72,13 @@ function Project() {
   const [menuItems] = useState([
     {
       to: '/overview',
-      label: 'Overview',
+      label: 'Танилцуулга',
       icon: <HomeIcon />,
     },
     {
       to: '/documents',
-      label: 'Documents',
+      label: 'Бичиг баримтууд',
       icon: <DocumentIcon />,
-    },
-    {
-      to: '/requests',
-      label: 'Requests',
-      icon: <QuestionAnswerIcon />,
-    },
-    {
-      to: '/notes',
-      label: 'Notes',
-      icon: <CommentIcon />,
     },
     {
       to: '/applies',
@@ -123,17 +113,17 @@ function Project() {
                   variant="rounded"
                   className={classes.sideBarAvatar}
                 >
-                  {project.name ? project.name.charAt(0) : ''}
+                  {project.name ? project.name.charAt(0) : 'Н'}
                 </Avatar>
               </Grid>
               <Grid item xs>
                 <Typography>
                   <Box fontWeight="fontWeightMedium">
-                    {project.name}
+                    {project.name ? project.name : 'Төслийн нэр'}
                   </Box>
                 </Typography>
                 <Typography variant="caption">
-                  {`#${project.id}`}
+                  {project.id ? `#${project.id}` : '#0'}
                 </Typography>
               </Grid>
             </Grid>

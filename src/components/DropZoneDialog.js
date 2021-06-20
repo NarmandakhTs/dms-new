@@ -204,16 +204,12 @@ function DropZoneDialog({
 
   const fileUploader = (
     <Box className={classes.fileUploader}>
-      <img
-        width="60"
-        alt="document"
-        src={FileIcon}
-      />
-      <Typography>
-        <Box fontWeight="fontWeightLight">Drag and Drop your document here</Box>
-      </Typography>
-      <Box>
-        <Typography className={classes.dividerWithText}>OR</Typography>
+      <Box mb={2}>
+        <img
+          width="60"
+          alt="document"
+          src={FileIcon}
+        />
       </Box>
       <label>
         <input

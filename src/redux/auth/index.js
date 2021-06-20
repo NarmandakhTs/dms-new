@@ -16,7 +16,8 @@ const mutations = {
     return {
       ...state,
       user: null,
-      access_token: null
+      access_token: null,
+      permissions: []
     }
   },
   [SET_USER](state, { payload }) {

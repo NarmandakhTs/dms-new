@@ -64,7 +64,7 @@ function MyProjects() {
           >
             <Grid item>
               <Typography variant="h6">
-                <Box fontWeight="fontWeightMedium">My Projects</Box>
+                <Box fontWeight="fontWeightMedium">Миний төслүүд</Box>
               </Typography>
             </Grid>
             <Grid item>
@@ -74,7 +74,7 @@ function MyProjects() {
                 color="primary"
                 component={Link}
                 to={`${url}/new`}
-              >Create Project</Button>
+              >Төсөл үүсгэх</Button>
             </Grid>
           </Grid>
         </Box>

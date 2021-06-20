@@ -13,18 +13,26 @@ import {
 } from 'react-router-dom'
 import {
   Avatar,
+  Box,
   Drawer,
   Tooltip,
   List,
   ListItem,
-  ListItemIcon
+  ListItemIcon,
+  Menu,
+  MenuItem
 } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { removeUser } from './../redux/auth/actions'
 import Logo from './../assets/images/logo.svg'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import AssessmentIcon from '@material-ui/icons/Assessment'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import EventNoteIcon from '@material-ui/icons/EventNote'
 import PeopleIcon from '@material-ui/icons/People'
 import SettingsIcon from '@material-ui/icons/Settings'
+import GradeIcon from '@material-ui/icons/Grade'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
 
 const drawerWidth = 60
 
@@ -75,43 +83,63 @@ function App() {
   const classes = useStyles()
   const { url } = useRouteMatch()
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
   const permissions = useSelector(getPermissions)
   const userFullname = useSelector(getUserFullname)
+  const [userAnchor, setUserAnchor] = useState(null)
   const [menuItems] = useState([
     {
       to: '/students',
-      label: 'Students',
+      label: 'Төгсөгч оюутан',
       icon: <PeopleIcon />,
       permission: 'view-students',
     },
     {
       to: '/schedules',
-      label: 'Schedules',
+      label: 'Хуваарь',
       icon: <EventNoteIcon />,
     },
     {
+      to: '/documents',
+      label: 'Бичиг баримтууд',
+      icon: <FileCopyIcon />,
+      permission: 'view-students',
+    },
+    {
+      to: '/reports',
+      label: 'Тайлангууд',
+      icon: <AssessmentIcon />,
+      permission: 'view-students',
+    },
+    {
+      to: '/results',
+      label: 'Үнэлгээ',
+      icon: <GradeIcon />,
+      permission: 'view-my-projects',
+    },
+    {
       to: '/my/project',
-      label: 'My Project',
+      label: 'Миний төсөл',
       icon: <DashboardIcon />,
       permission: 'view-my-project',
     },
     {
       to: '/my/projects',
-      label: 'My Projects',
+      label: 'Минний төслүүд',
       icon: <DashboardIcon />,
       permission: 'view-my-projects',
     },
     {
       to: '/projects',
-      label: 'Projects',
+      label: 'Төслүүд',
       icon: <AccountTreeIcon />,
       permission: 'view-projects',
     },
-    {
-      to: '/settings',
-      label: 'Settings',
-      icon: <SettingsIcon />,
-    },
+    // {
+    //   to: '/settings',
+    //   label: 'Тохиргоо',
+    //   icon: <SettingsIcon />,
+    // },
   ])
 
   const getFirstElementsOfFullname = () => `${userFullname.surname.charAt(0)}${userFullname.name.charAt(0)}`
@@ -156,9 +184,24 @@ function App() {
             )
           })}
         </List>
-        <Avatar className={classes.userAvatar}>
-          {getFirstElementsOfFullname()}
-        </Avatar>
+        <Box>
+          <Avatar
+            className={classes.userAvatar}
+            onClick={({ currentTarget }) => setUserAnchor(currentTarget)}
+          >
+            {getFirstElementsOfFullname()}
+          </Avatar>
+          <Menu
+            keepMounted
+            anchorEl={userAnchor}
+            open={Boolean(userAnchor)}
+            onClose={() => setUserAnchor(null)}
+          >
+            <MenuItem onClick={() => dispatch(removeUser())}>
+              Гарах
+              </MenuItem>
+          </Menu>
+        </Box>
       </Drawer>
       <main className={classes.content}>
         <AppRoutes />

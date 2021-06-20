@@ -17,14 +17,52 @@ import { DropZoneMultipleDialog } from './../components'
 import axios from './../plugins/axios'
 import Alert from '@material-ui/lab/Alert'
 import AddIcon from '@material-ui/icons/Add'
+import PDFIcon from './../assets/images/files/pdf.svg'
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    boxShadow: '0 2px 2px #00000010'
+    borderRadius: theme.spacing(1),
+    boxShadow: `0 2px 10px ${theme.palette.grey[200]}`,
   },
-  cardMedia: {
-    height: theme.spacing(30),
+  cardDocument: {
+    transition: '.2s',
+    overflow: 'hidden',
+    borderRadius: theme.spacing(1),
+    height: theme.spacing(25),
+    backgroundColor: '#ccc',
+    '& .react-pdf__Document': {
+      transition: '.1s',
+      margin: theme.spacing(2, 4)
+    },
+    '& .react-pdf__Page': {
+      marginBottom: theme.spacing(1),
+      borderRadius: theme.spacing(0.5),
+      overflow: 'hidden',
+      opacity: 0.5,
+      transition: '.3s'
+    },
+    '& .react-pdf__Page__canvas,& .react-pdf__Page__textContent': {
+      width: '100% !important',
+      height: 'auto !important'
+    },
+    '&:hover': {
+      zIndex: 99999,
+      transform: 'scale(1.1)',
+      backgroundColor: '#78a7ff',
+      boxShadow: `0 5px 20px #999`,
+      '& .react-pdf__Page': {
+        opacity: 1
+      },
+      '& .react-pdf__Document': {
+        margin: theme.spacing(1)
+      },
+    }
   },
+  cardTitle: {
+    overflow: 'hidden',
+    padding: theme.spacing(2)
+  }
 }))
 
 function ProjectDocuments(props) {
@@ -34,6 +72,7 @@ function ProjectDocuments(props) {
   const [uploadStudentDialog, openUploadStudentDialog] = useState(false)
   const [uploadStudentsSuccess, setUploadStudentsSuccess] = useState(false)
   const [documents, setDocuments] = useState([])
+  const [numPages, setNumPages] = useState(null);
   const path = params.id ? `projects/${params.id}/documents` : 'my/project/documents'
 
   useEffect(() => {
@@ -51,6 +90,10 @@ function ProjectDocuments(props) {
     setUploadStudentsSuccess(true)
   }
 
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages)
+  }
+
   return (
     <Box p={5}>
       <Box mb={5}>
@@ -60,7 +103,7 @@ function ProjectDocuments(props) {
           justify="space-between"
         >
           <Grid item>
-            <Typography variant="h4">Documents</Typography>
+            <Typography variant="h4">Бичиг баримтууд</Typography>
           </Grid>
           <Grid item>
             <Button
@@ -68,7 +111,7 @@ function ProjectDocuments(props) {
               startIcon={<AddIcon />}
               variant="outlined"
               size="large"
-            >Add Document</Button>
+            >Бичиг баримт оруулах</Button>
           </Grid>
         </Grid>
       </Box>
@@ -82,13 +125,30 @@ function ProjectDocuments(props) {
             xs={3}
             item
           >
-            {document.name}
+            <Box className={classes.card}>
+              <Box className={classes.cardDocument}>
+                <Document
+                  file={`${process.env.REACT_APP_API_URL}/api/${document.path}`}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page pageNumber={1} />
+                  <Page pageNumber={2} />
+                </Document>
+              </Box>
+              <Typography
+                className={classes.cardTitle}
+                variant="subtitle2"
+              >
+                {document.name}
+              </Typography>
+            </Box>
           </Grid>
         )}
       </Grid>
       <DropZoneMultipleDialog
         title="Add Documents"
-        extensions="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        extensions="application/pdf"
+        icon={PDFIcon}
         uploadPath={path}
         open={uploadStudentDialog}
         onFinish={onUploadStudentsFinish}

@@ -18,6 +18,7 @@ import AddIcon from '@material-ui/icons/Add'
 import FilesIcon from './../assets/images/files/files.svg'
 import DOCIcon from './../assets/images/files/doc.svg'
 import XLSIcon from './../assets/images/files/xls.svg'
+import PDFIcon from './../assets/images/files/pdf.svg'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -83,7 +84,8 @@ function DropZoneMultipleDialog({
   extensions,
   uploadPath,
   onClose,
-  onFinish
+  onFinish,
+  icon
 }) {
   const classes = useStyles()
   const input = useRef(null)
@@ -146,10 +148,11 @@ function DropZoneMultipleDialog({
   }
 
   const extensionsIcons = {
-    doc: DOCIcon,
+    doc: PDFIcon,
     docx: DOCIcon,
     xls: XLSIcon,
-    xlsx: XLSIcon
+    xlsx: XLSIcon,
+    pdf: PDFIcon
   }
 
   const fileManager = (
@@ -226,16 +229,12 @@ function DropZoneMultipleDialog({
 
   const fileUploader = (
     <Box className={classes.fileUploader}>
-      <img
-        width="80"
-        alt="document"
-        src={FilesIcon}
-      />
-      <Typography>
-        <Box fontWeight="fontWeightLight">Drag and Drop your document here</Box>
-      </Typography>
       <Box>
-        <Typography className={classes.dividerWithText}>OR</Typography>
+        <img
+          width="80"
+          alt="document"
+          src={icon ? icon : FilesIcon}
+        />
       </Box>
       <label>
         <input

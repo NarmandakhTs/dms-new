@@ -66,12 +66,12 @@ function Projects() {
   const [menuItems] = useState([
     {
       to: '/new',
-      label: 'New Projects',
+      label: 'Төслийн сэдэвүүд',
       icon: <DocumentIcon />,
     },
     {
       to: '/discover',
-      label: 'Discover Projects',
+      label: 'Төслийн сан',
       icon: <QuestionAnswerIcon />,
     },
   ])
@@ -81,7 +81,7 @@ function Projects() {
       <Grid item xs={3}>
         <Box className={classes.sideBar}>
           <Box mb={3}>
-            <Typography variant="h5">Projects</Typography>
+            <Typography variant="h5">Төслүүд</Typography>
           </Box>
           <List
             component="nav"
